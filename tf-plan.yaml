@@ -51,7 +51,7 @@ substitutions:
     _TERRAFORM_VERSION: 0.14.9
     _DIR: .
     _TF_COMMAND: plan
-    _TF_DIR: terraform
+    _TF_DIR: .
     _BACKEND_CONFIG_BUCKET: bucket=tf-state-${PROJECT_ID} 
     _BACKEND_CONFIG_PREFIX: prefix=terraform/pr
     _VAR_FILE: dev.tfvars
