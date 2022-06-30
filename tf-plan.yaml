@@ -42,7 +42,7 @@ steps:
     apt-get install jq -y
     apt-get update && apt-get install terraform=0.14.9
     terraform init -backend-config="${_BACKEND_CONFIG_BUCKET}" -backend-config="${_BACKEND_CONFIG_PREFIX}"
-    terraform ${_TF_COMMAND}-var-file=${_VAR_FILE} ${_TF_OPTIONS}
+    terraform ${_TF_COMMAND} -var-file=${_VAR_FILE} ${_TF_OPTIONS}
   env:
     - "TF_VAR_project-name=${PROJECT_ID}"
     - "TF_LOG=${_TF_LOG}" 
