@@ -60,3 +60,4 @@ substitutions:
     _BACKEND_CONFIG_PREFIX: prefix=anthos-config/dev
     _VAR_FILE: dev.tfvars
     _TF_LOG:
+    _TF_OPTIONS: -auto-approve
