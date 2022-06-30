@@ -30,15 +30,19 @@ steps:
     path: /root/.ssh
 
 #Perform the terrafrom plan 
-- name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+- name: 'gcr.io/cloud-builders/gcloud'
   id: terraform-plan
   dir: ${_DIR}/${_TF_DIR}
   entrypoint: bash
   args: 
   - '-c' # pass what follows as a command to bash
   - |
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add -
+    apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+    apt-get install jq -y
+    apt-get update && apt-get install terraform=0.14.9
     terraform init -backend-config="${_BACKEND_CONFIG_BUCKET}" -backend-config="${_BACKEND_CONFIG_PREFIX}"
-    terraform ${_TF_COMMAND} -var-file=${_VAR_FILE}
+    terraform ${_TF_COMMAND}-var-file=${_VAR_FILE} ${_TF_OPTIONS}
   env:
     - "TF_VAR_project-name=${PROJECT_ID}"
     - "TF_LOG=${_TF_LOG}" 
