@@ -57,6 +57,6 @@ substitutions:
     _TF_COMMAND: plan
     _TF_DIR: .
     _BACKEND_CONFIG_BUCKET: bucket=tf-state-${PROJECT_ID} 
-    _BACKEND_CONFIG_PREFIX: prefix=terraform/pr
+    _BACKEND_CONFIG_PREFIX: prefix=anthos-config/dev
     _VAR_FILE: dev.tfvars
     _TF_LOG:

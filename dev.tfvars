@@ -1,0 +1,1 @@
+project_id = "kubeshot-devops"
