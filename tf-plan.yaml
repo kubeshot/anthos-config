@@ -1,0 +1,58 @@
+steps:
+#retrieve key
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: retrieve-read-key
+  entrypoint: 'bash'
+  dir: ${_DIR}  
+  args:
+  - '-c'
+  - |
+    gcloud secrets versions access ${_KEY_VERSION} --secret="rpabot_read_key" --project=${_KEY_PROJECT}  > /root/.ssh/id_rsa;
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+# Set up git with key and domain.
+- name: 'gcr.io/cloud-builders/git'
+  id: add-github-key
+  entrypoint: 'bash'
+  dir: ${_DIR}
+  args:
+  - '-c'
+  - |
+    chmod 600 /root/.ssh/id_rsa
+    cat <<EOF >/root/.ssh/config
+    Hostname github.com
+    IdentityFile /root/.ssh/id_rsa
+    EOF
+    ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
+#Perform the terrafrom plan 
+- name: 'hashicorp/terraform:${_TERRAFORM_VERSION}'
+  id: terraform-plan
+  dir: ${_DIR}/${_TF_DIR}
+  entrypoint: bash
+  args: 
+  - '-c' # pass what follows as a command to bash
+  - |
+    terraform init -backend-config="${_BACKEND_CONFIG_BUCKET}" -backend-config="${_BACKEND_CONFIG_PREFIX}"
+    terraform ${_TF_COMMAND} -var-file=${_VAR_FILE}
+  env:
+    - "TF_VAR_project-name=${PROJECT_ID}"
+    - "TF_LOG=${_TF_LOG}" 
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+substitutions:
+    _KEY_PROJECT: kubeshot-devops
+    _KEY_VERSION: "latest"
+    _TERRAFORM_VERSION: 0.14.9
+    _DIR: .
+    _TF_COMMAND: plan
+    _TF_DIR: terraform
+    _BACKEND_CONFIG_BUCKET: bucket=tf-state-${PROJECT_ID} 
+    _BACKEND_CONFIG_PREFIX: prefix=terraform/pr
+    _VAR_FILE: dev.tfvars
+    _TF_LOG:
