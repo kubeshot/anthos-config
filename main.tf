@@ -49,7 +49,7 @@ member  = "serviceAccount:project-a@${var.project_id}.iam.gserviceaccount.com"
 depends_on         = [google_service_account.project-a_service_account]
 } 
 
-resource "google_service_account_iam_member" "iam_binding_for_config_connector" {
+resource "google_service_account_iam_member" "iam_binding_for_project-a_sa" {
   service_account_id = google_service_account.project-a_service_account.name
   role               = "roles/iam.workloadIdentityUser"
   member             = "serviceAccount:${var.project_id}.svc.id.goog[cnrm-system/cnrm-controller-manager-project-a]"
