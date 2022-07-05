@@ -14,7 +14,7 @@ member  = "serviceAccount:config-connector@${var.project_id}.iam.gserviceaccount
 
 resource "google_project_iam_member" "config-connector-compute-admin-role" {
 project = var.project_id
-role    = "roles/compute.admin"
+role    = "roles/owner"
 member  = "serviceAccount:config-connector@${var.project_id}.iam.gserviceaccount.com"
   depends_on         = [google_service_account.cluster_service_account]
 }
@@ -33,7 +33,7 @@ resource "google_service_account_iam_member" "iam_binding_for_config_connector" 
 #Joining the cluster in hub memebership 
 
  module "hub_membeship" {
-  source        = "hub-membership"
+  source        = "./hub-membership"
   project_id    = var.project_id
   membership_id = "anthos-config-cluster"
   cluster_name  = "anthos-config-cluster"
