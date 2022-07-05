@@ -18,5 +18,5 @@ spec:
     annotations:
       cnrm.cloud.google.com/project-id: kubeshot-devops
     labels:
-      environment:test
+      environment: test
     name: test-topic
