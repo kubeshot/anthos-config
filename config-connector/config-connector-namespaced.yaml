@@ -14,3 +14,12 @@ metadata:
   name: config-connector
   annotations:
     cnrm.cloud.google.com/project-id: kubeshot-devops
+---
+apiVersion: core.cnrm.cloud.google.com/v1beta1
+kind: ConfigConnectorContext
+metadata:
+  # you can only have one ConfigConnectorContext per namespace
+  name: configconnectorcontext.core.cnrm.cloud.google.com
+  namespace: config-connector
+spec:
+  googleServiceAccount: "config-connector@kubeshot-devops.iam.gserviceaccount.com"
