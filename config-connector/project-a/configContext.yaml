@@ -20,3 +20,4 @@ spec:
     labels:
       environment: test
     name: test-topic
+    namespace: project-a
