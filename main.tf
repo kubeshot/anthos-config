@@ -19,7 +19,12 @@ member  = "serviceAccount:config-connector@${var.project_id}.iam.gserviceaccount
   depends_on         = [google_service_account.cluster_service_account]
 }
 
-
+resource "google_project_iam_member" "config-connector-sa-metricWriter-role" {
+project = var.project_id
+role    = "roles/monitoring.metricWriter"
+member  = "serviceAccount:config-connector@${var.project_id}.iam.gserviceaccount.com"
+  depends_on         = [google_service_account.cluster_service_account]
+} 
 
 #Iam binding for config_connector with cloud 
 resource "google_service_account_iam_member" "iam_binding_for_config_connector" {
