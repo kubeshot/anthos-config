@@ -35,7 +35,7 @@ resource "google_service_account_iam_member" "iam_binding_for_config_connector" 
  module "hub_membeship" {
   source        = "./hub-membership"
   project_id    = var.project_id
-  membership_id = "anthos-config-cluster"
+  membership_id = "config-cluster"
   cluster_name  = "anthos-config-cluster"
   location      ="us-central1-c"
  }
