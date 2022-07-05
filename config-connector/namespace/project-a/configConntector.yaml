@@ -1,7 +1,49 @@
-apiVersion: core.cnrm.cloud.google.com/v1beta1
-kind: ConfigConnector
+apiVersion: v1
+kind: Namespace
 metadata:
-  # the name is restricted to ensure that there is only ConfigConnector resource installed in your cluster
-  name: configconnector.core.cnrm.cloud.google.com
+  name: project-a
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa-project-a
+  namespace: project-a
+  annotations:
+    iam.gke.io/gcp-service-account: project-a@kubeshot-devops.iam.gserviceaccount.com
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata:
+  name: gsa-project-a
+  namespace: project-a
 spec:
- mode: namespaced
+  displayName: project-a Workload Identity SA
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: iampolicy-project-a-workloadidentity
+  namespace: project-a
+spec:
+  resourceRef:
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    name: gsa-project-a  
+    namespace: project-a
+  bindings:
+    - role: roles/iam.workloadIdentityUser
+      members:
+        - serviceAccount:kubeshot-devops.svc.id.goog[project-a/sa-project-a]
+---
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicy
+metadata:
+  name: project-a-owner
+spec:
+  resourceRef:
+    kind: Project
+    name: iampolicy-project-a
+  bindings:
+    - members:
+        - serviceAccount:iampolicy-project-a@kubeshot-devops.iam.gserviceaccount.com
+      role: roles/owner
