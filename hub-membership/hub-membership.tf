@@ -33,8 +33,8 @@ resource "google_gke_hub_feature_membership" "feature_member" {
         sync_branch = var.sync_branch
         sync_wait_secs  = 30
         policy_dir = var.policy_directory
-        #secret_type = "ssh"
-        secret_type = "token"
+        secret_type = "ssh"
+        #secret_type = "token"
       }
     }
     policy_controller {
