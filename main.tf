@@ -28,3 +28,14 @@ resource "google_service_account_iam_member" "iam_binding_for_config_connector" 
   member             = "serviceAccount:${var.project_id}.svc.id.goog[cnrm-system/cnrm-controller-manager]"
   depends_on         = [google_service_account.cluster_service_account]
 }
+
+
+#Joining the cluster in hub memebership 
+
+ module "hub_membeship" {
+  source        = "hub-membership"
+  project_id    = var.project_id
+  membership_id = "anthos-config-cluster"
+  cluster_name  = "anthos-config-cluster"
+  location      ="us-central1-c"
+ }
