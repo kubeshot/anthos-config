@@ -30,8 +30,8 @@ spec:
     annotations:
       cnrm.cloud.google.com/auto-create-network: "false"
     labels:
-      label-one: "value-one"
-    name: project-sample-in-org
+      env: "test"
+    name: kubeshot-test-project
     namespace: hub-project
   spec:
     name: Config Connector Sample
