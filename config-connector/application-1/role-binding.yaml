@@ -5,8 +5,8 @@ metadata:
   namespace: app-1
 subjects:
 - kind: ServiceAccount
-   name: ns-reconciler-app-1
-   namespace: config-management-system
+  name: ns-reconciler-app-1
+  namespace: config-management-system
 roleRef:
   kind: ClusterRole
   name: admin
