@@ -1,0 +1,22 @@
+# ROOT_REPO/namespaces/NAMESPACE/repo-sync.yaml
+ # If you are using a Config Sync version earlier than 1.8.0,
+ # use: apiVersion: configsync.gke.io/v1alpha1
+apiVersion: configsync.gke.io/v1beta1
+kind: RepoSync
+metadata:
+  name: app-1
+  namespace: app-1
+spec:
+  # Since this is for a namespace repository, the format should be unstructured
+  sourceFormat: unstructured
+  git:
+   repo: https://github.com/kubeshot/app-1-repo
+   revision: HEAD
+   branch: main
+   dir: "/"
+   auth: token
+   gcpServiceAccountEmail: app-1@kubeshot-test-project.iam.gserviceaccount.com
+   secretRef:
+     name: app-1-github-token
+   # The `noSSLVerify` field is supported in Anthos Config Management version 1.8.2 and later.
+   noSSLVerify: true
