@@ -4,7 +4,7 @@
 apiVersion: configsync.gke.io/v1beta1
 kind: RepoSync
 metadata:
-  name: app-1
+  name: repo-sync
   namespace: app-1
 spec:
   # Since this is for a namespace repository, the format should be unstructured
