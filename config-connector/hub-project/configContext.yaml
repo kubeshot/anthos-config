@@ -14,60 +14,60 @@ metadata:
 spec:
   googleServiceAccount: "hub-project@kubeshot-devops.iam.gserviceaccount.com"
 ---
-  apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
-  kind: PubSubTopic
-  metadata:
-    annotations:
-      cnrm.cloud.google.com/project-id: kubeshot-devops
-    labels:
-      environment: test
-    name: test-topic
-    namespace: hub-project
+apiVersion: pubsub.cnrm.cloud.google.com/v1beta1
+kind: PubSubTopic
+metadata:
+  annotations:
+    cnrm.cloud.google.com/project-id: kubeshot-devops
+  labels:
+    environment: test
+  name: test-topic
+  namespace: hub-project
 ---
-  apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
-  kind: Project
-  metadata:
-    annotations:
-      cnrm.cloud.google.com/auto-create-network: "false"
-    labels:
-      env: "test"
-    name: kubeshot-test-project
-    namespace: hub-project
-  spec:
-    name: Config Connector Sample
+apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+kind: Project
+metadata:
+  annotations:
+    cnrm.cloud.google.com/auto-create-network: "false"
+  labels:
+    env: "test"
+  name: kubeshot-test-project
+  namespace: hub-project
+spec:
+  name: Config Connector Sample
  
 ---
 apiVersion: storage.cnrm.cloud.google.com/v1beta1
- kind: StorageBucket
- metadata:
-   annotations:
-     cnrm.cloud.google.com/force-destroy: "false"
-   labels:
-     label-one: "value-one"
-    # StorageBucket names must be globally unique. Replace ${PROJECT_ID?} with your project ID.
-   name: kubeshot-test-project-sample
- spec:
-   lifecycleRule:
-     - action:
-         type: Delete
-       condition:
-         age: 7
-   versioning:
-     enabled: true
-   cors:
-     - origin: ["http://example.appspot.com"]
-       responseHeader: ["Content-Type"]
-       method: ["GET", "HEAD", "DELETE"]
-       maxAgeSeconds: 3600
-   uniformBucketLevelAccess: true
+kind: StorageBucket
+metadata:
+  annotations:
+    cnrm.cloud.google.com/force-destroy: "false"
+  labels:
+    label-one: "value-one"
+  # StorageBucket names must be globally unique. Replace ${PROJECT_ID?} with your project ID.
+  name: kubeshot-test-project-sample
+spec:
+  lifecycleRule:
+    - action:
+        type: Delete
+      condition:
+        age: 7
+  versioning:
+    enabled: true
+  cors:
+    - origin: ["http://example.appspot.com"]
+      responseHeader: ["Content-Type"]
+      method: ["GET", "HEAD", "DELETE"]
+      maxAgeSeconds: 3600
+  uniformBucketLevelAccess: true
 ---
-  apiVersion: iam.cnrm.cloud.google.com/v1beta1
-  kind: IAMPolicyMember
-  metadata:
-    name: iampolicymember-kubeshot-test-project
-  spec:
-    member: mail.jsapkota@gmail.com
-    role: roles/viewer
-    resourceRef:
-      kind: Project
-      external: projects/kubeshot-test-project
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata:
+  name: iampolicymember-kubeshot-test-project
+spec:
+  member: mail.jsapkota@gmail.com
+  role: roles/viewer
+  resourceRef:
+    kind: Project
+    external: projects/kubeshot-test-project
