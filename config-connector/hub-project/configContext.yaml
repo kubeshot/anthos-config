@@ -35,3 +35,27 @@ spec:
     namespace: hub-project
   spec:
     name: Config Connector Sample
+ ---
+ apiVersion: storage.cnrm.cloud.google.com/v1beta1
+  kind: StorageBucket
+  metadata:
+    annotations:
+      cnrm.cloud.google.com/force-destroy: "false"
+    labels:
+      label-one: "value-one"
+    # StorageBucket names must be globally unique. Replace ${PROJECT_ID?} with your project ID.
+    name: kubeshot-test-project-sample
+  spec:
+    lifecycleRule:
+      - action:
+          type: Delete
+        condition:
+          age: 7
+    versioning:
+      enabled: true
+    cors:
+      - origin: ["http://example.appspot.com"]
+        responseHeader: ["Content-Type"]
+        method: ["GET", "HEAD", "DELETE"]
+        maxAgeSeconds: 3600
+    uniformBucketLevelAccess: true
