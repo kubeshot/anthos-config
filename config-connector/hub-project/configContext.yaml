@@ -42,6 +42,7 @@ kind: StorageBucket
 metadata:
   annotations:
     cnrm.cloud.google.com/force-destroy: "false"
+    cnrm.cloud.google.com/project-id: "kubeshot-test-project"
   labels:
     label-one: "value-one"
   # StorageBucket names must be globally unique. Replace ${PROJECT_ID?} with your project ID.
@@ -65,6 +66,8 @@ apiVersion: iam.cnrm.cloud.google.com/v1beta1
 kind: IAMPolicyMember
 metadata:
   name: iampolicymember-kubeshot-test-project
+  annotations:
+    cnrm.cloud.google.com/project-id: "kubeshot-test-project"
 spec:
   member: mail.jsapkota@gmail.com
   role: roles/viewer
